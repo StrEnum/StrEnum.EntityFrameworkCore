@@ -10,10 +10,10 @@ RUN dotnet restore
 # copy everything else and build app
 COPY ./ ./
 WORKDIR /source
-RUN dotnet build -c release -o /out/package --no-restore
+RUN dotnet build -c release -o /out/package --no-restore /p:maxcpucount=1
 
 FROM build as test
-RUN dotnet test
+RUN dotnet test /p:maxcpucount=1
 
 FROM build as pack-and-push
 WORKDIR /source
