@@ -27,7 +27,7 @@ public class SportsType: StringEnum<SportsType>
 {
     public static readonly SportsType RoadCycling = Define("ROAD_CYCLING");
     public static readonly SportsType MountainBiking = Define("MTB");
-    public static readonly SportsType TrailRunning = Define("TrailRunning");
+    public static readonly SportsType TrailRunning = Define("TRAIL_RUNNING");
 }
 
 public class Race
@@ -130,7 +130,7 @@ That will produce the following SQL:
 ```sql
 SELECT [r].[Id], [r].[Name], [r].[Sport]
 FROM [Races] AS [r]
-WHERE [r].[Sport] = N'TrailRunning'
+WHERE [r].[Sport] = N'TRAIL_RUNNING'
 ```
 
 You can also query by multiple SportsType values:
