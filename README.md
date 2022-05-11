@@ -150,7 +150,7 @@ WHERE [r].[Sport] IN (N'MTB', N'ROAD_CYCLING')
 
 ## Acknowledgements
 
-Thanks to [Andrew Lock](https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/) for his research on using custom `ValueConverterSelector`s.
+Thanks to [Andrew Lock](https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/) for his research on using custom `ValueConverterSelector`.
 
 ## License
 
