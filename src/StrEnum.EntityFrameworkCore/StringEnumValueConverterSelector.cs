@@ -42,29 +42,8 @@ namespace StrEnum.EntityFrameworkCore
             return new ValueConverterInfo(stringEnum, typeof(string), _ => converter, null);
         }
 
-        private static bool IsStringEnum(Type? underlyingModelType)
-        {
-            if (underlyingModelType is null) return false;
-
-            if (!underlyingModelType.IsClass) return false;
-
-            var baseClassIsGeneric = underlyingModelType.BaseType?.IsGenericType ?? false;
-
-            if (!baseClassIsGeneric) return false;
-
-            try
-            {
-                var constructedStringEnumType = typeof(StringEnum<>).MakeGenericType(underlyingModelType);
-
-                return constructedStringEnumType.IsAssignableFrom(underlyingModelType);
-            }
-            catch (ArgumentException)
-            {
-                return false;
-            }
-        }
+        private static bool IsStringEnum(Type? underlyingModelType) => underlyingModelType?.IsStringEnum() ?? false;
 
         public static Type UnwrapNullableType(Type type) => Nullable.GetUnderlyingType(type) ?? type;
-
     }
 }
