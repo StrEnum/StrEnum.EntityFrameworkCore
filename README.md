@@ -4,7 +4,7 @@ Allows to use [StrEnum](https://github.com/StrEnum/StrEnum/) string enums with E
 
 Supports EF Core 3.1, EF Core 5.0, and EF Core 6.0.
 
-## How do I install it?
+## Installation
 
 You can install [StrEnum.EntityFrameworkCore](https://www.nuget.org/packages/StrEnum.EntityFrameworkCore/) using the .NET CLI:
 
@@ -12,35 +12,29 @@ You can install [StrEnum.EntityFrameworkCore](https://www.nuget.org/packages/Str
 dotnet add package StrEnum.EntityFrameworkCore
 ```
 
-Or using the Package Manager console:
-
-```
-PM> Install-Package StrEnum.EntityFrameworkCore
-```
-
-## How do I use it?
+## Usage
 
 Define a string enum and an entity that uses it:
 
 ```csharp
-public class SportsType: StringEnum<SportsType>
+public class Sport: StringEnum<Sport>
 {
-    public static readonly SportsType RoadCycling = Define("ROAD_CYCLING");
-    public static readonly SportsType MountainBiking = Define("MTB");
-    public static readonly SportsType TrailRunning = Define("TRAIL_RUNNING");
+    public static readonly Sport RoadCycling = Define("ROAD_CYCLING");
+    public static readonly Sport MountainBiking = Define("MTB");
+    public static readonly Sport TrailRunning = Define("TRAIL_RUNNING");
 }
 
 public class Race
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public SportsType Sport { get; private set; }
+    public Sport Sport { get; private set; }
 
     private Race()
     {
     }
 
-    public Race(string name, SportsType sport)
+    public Race(string name, Sport sport)
     {
         Id = Guid.NewGuid();
         Name = name;
@@ -109,9 +103,9 @@ await context.Database.EnsureCreatedAsync();
 
 var races = new[]
 {
-    new Race("Chornohora Sky Marathon", SportsType.TrailRunning),
-    new Race("Cape Town Cycle Tour", SportsType.RoadCycling),
-    new Race("Cape Epic", SportsType.MountainBiking)
+    new Race("Chornohora Sky Marathon", Sport.TrailRunning),
+    new Race("Cape Town Cycle Tour", Sport.RoadCycling),
+    new Race("Cape Epic", Sport.MountainBiking)
 };
 
 await context.Races.AddRangeAsync(races);
@@ -119,10 +113,10 @@ await context.Races.AddRangeAsync(races);
 await context.SaveChangesAsync();
 ```
 
-And filter by a single SportsType:
+And filter by a single Sport:
 
 ```csharp
-var trailRuns = await context.Races.Where(o => o.Sport == SportsType.TrailRunning).ToArrayAsync();
+var trailRuns = await context.Races.Where(o => o.Sport == Sport.TrailRunning).ToArrayAsync();
 ```
 
 That will produce the following SQL:
@@ -133,12 +127,12 @@ FROM [Races] AS [r]
 WHERE [r].[Sport] = N'TRAIL_RUNNING'
 ```
 
-You can also query by multiple SportsType values:
+You can also query by multiple Sport values:
 
 ```csharp
-var cyclingSports = new[] { SportsType.MountainBiking, SportsType.RoadCycling };
+var cyclingSport = new[] { Sport.MountainBiking, Sport.RoadCycling };
 
-var racesThatRequireABicycle = await context.Races.Where(o => cyclingSports.Contains(o.Sport)).ToArrayAsync();
+var racesThatRequireABicycle = await context.Races.Where(o => cyclingSport.Contains(o.Sport)).ToArrayAsync();
 ```
 Which will translate to the following SQL:
 
