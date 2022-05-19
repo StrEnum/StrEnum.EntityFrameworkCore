@@ -3,7 +3,8 @@
 	<PropertyGroup>
 		<PackageId>StrEnum.EntityFrameworkCore</PackageId>
 		<Description>String enum support for EF Core</Description>
-		<Authors>dmitry-khmara</Authors>
+		<Authors>Dmitry Khmara</Authors>
+		<Copyright>Copyright Dmitry Khmara</Copyright>
 		<PackageTags>String Enum;EF Core;Entity Framework Core;Enum;String</PackageTags>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
