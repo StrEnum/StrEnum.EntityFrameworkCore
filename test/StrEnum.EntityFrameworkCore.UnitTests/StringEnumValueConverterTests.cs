@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 
@@ -16,18 +17,28 @@ public class StringEnumValueConverterTests
             new[]
             {
                 new object?[] { "UKR", Country.Ukraine},
-                new object?[] { "SouthAfrica", Country.SouthAfrica}
+                new object?[] { "ZAF", Country.SouthAfrica}
             };
 
     [Theory]
     [MemberData(nameof(FromStringTestCases))]
-    public void ConvertFromString_ShouldConvertToStringEnumByNameOrValue(string value, Country expectedMember)
+    public void ConvertFromString_ShouldConvertToStringEnumByValue(string value, Country expectedMember)
     {
         var converter = new StringEnumValueConverter<Country>();
 
         var actualCountry = converter.ConvertFromProvider(value);
 
         actualCountry.Should().Be(expectedMember);
+    }
+
+    [Fact]
+    public void ConvertFromString_GivenMemberName_ShouldThrowAnException()
+    {
+        var converter = new StringEnumValueConverter<Country>();
+
+        var convert = () => converter.ConvertFromProvider("SouthAfrica");
+
+        convert.Should().Throw<ArgumentException>();
     }
 
     [Fact]

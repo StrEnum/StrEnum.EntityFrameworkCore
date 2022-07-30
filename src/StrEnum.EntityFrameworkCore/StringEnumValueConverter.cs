@@ -10,7 +10,7 @@ namespace StrEnum.EntityFrameworkCore
         where TEnum : StringEnum<TEnum>, new()
     {
         public StringEnumValueConverter(ConverterMappingHints? mappingHints = null)
-            : base(@enum => (string)@enum, value => StringEnum<TEnum>.Parse(value, false), mappingHints)
+            : base(@enum => (string)@enum, value => StringEnum<TEnum>.Parse(value, false, MatchBy.ValueOnly), mappingHints)
         {
         }
     }
