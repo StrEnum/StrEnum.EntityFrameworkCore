@@ -2,7 +2,7 @@
 
 Allows to use [StrEnum](https://github.com/StrEnum/StrEnum/) string enums with Entity Framework Core.
 
-Supports EF Core 3.1–8
+Supports EF Core 3.1 – 9
 
 ## Installation
 
