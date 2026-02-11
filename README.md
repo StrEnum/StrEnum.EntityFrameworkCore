@@ -2,7 +2,7 @@
 
 Allows to use [StrEnum](https://github.com/StrEnum/StrEnum/) string enums with Entity Framework Core.
 
-Supports EF Core 3.1 – 9
+Supports EF Core 3.1 – 10
 
 ## Installation
 
@@ -148,6 +148,6 @@ Thanks to [Andrew Lock](https://andrewlock.net/strongly-typed-ids-in-ef-core-usi
 
 ## License
 
-Copyright &copy; 2022 [Dmitry Khmara](https://dmitrykhmara.com).
+Copyright &copy; 2026 [Dmytro Khmara](https://dmytrokhmara.com).
 
 StrEnum is licensed under the [MIT license](LICENSE.txt).
