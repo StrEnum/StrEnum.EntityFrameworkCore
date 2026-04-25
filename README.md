@@ -1,12 +1,12 @@
 # StrEnum.EntityFrameworkCore
 
-Allows to use [StrEnum](https://github.com/StrEnum/StrEnum/) string enums with Entity Framework Core.
+Lets you use [StrEnum](https://github.com/StrEnum/StrEnum/) string enums with Entity Framework Core.
 
-Supports EF Core 3.1 – 10
+Supports EF Core 3.1 – 10.
 
 ## Installation
 
-You can install [StrEnum.EntityFrameworkCore](https://www.nuget.org/packages/StrEnum.EntityFrameworkCore/) using the .NET CLI:
+Install [StrEnum.EntityFrameworkCore](https://www.nuget.org/packages/StrEnum.EntityFrameworkCore/) via the .NET CLI:
 
 ```
 dotnet add package StrEnum.EntityFrameworkCore
@@ -14,7 +14,7 @@ dotnet add package StrEnum.EntityFrameworkCore
 
 ## Usage
 
-Define a string enum and an entity that uses it:
+### Defining a string enum and an entity
 
 ```csharp
 public class Sport: StringEnum<Sport>
@@ -43,7 +43,9 @@ public class Race
 }
 ```
 
-And call the `UseStringEnums()` method when configuring your DB context:
+### Wiring it up
+
+Call `UseStringEnums()` when configuring your DB context:
 
 ```csharp
 public class RaceContext: DbContext
@@ -52,19 +54,22 @@ public class RaceContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=.;Database=BestRaces;user id=*;pwd=*;")
+        optionsBuilder
+            .UseSqlServer(@"Server=.;Database=BestRaces;user id=*;pwd=*;")
             .UseStringEnums();
     }
 }
 ```
 
-That's it! EF Core is now able to deal with string enums.
+That's it — EF Core can now read and write string enums.
 
 ### Migrations
 
-EF Core will store string enums in non-nullable string columns (`NVARCHAR(MAX)` in SQL Server, `TEXT` in Postgres). 
+EF Core stores string enums in non-nullable string columns (`NVARCHAR(MAX)` in SQL Server, `TEXT` in Postgres).
 
-Running `dotnet ef migrations add Init` will produce the following migration:
+> If you'd like to store string enums as native Postgres enum types instead of `TEXT`, see [StrEnum.Npgsql](https://github.com/StrEnum/StrEnum.Npgsql/).
+
+Running `dotnet ef migrations add Init` produces:
 
 ```csharp
 migrationBuilder.CreateTable(
@@ -81,7 +86,7 @@ migrationBuilder.CreateTable(
         });
 ```
 
-In order to store a nullable string enum, mark the property is non-required when configuring your entity:
+To allow a nullable string enum, mark the property as non-required when configuring the entity:
 
 ```csharp
 var race = builder.Entity<Race>();
@@ -91,9 +96,9 @@ race.Property(p => p.Sport).IsRequired(false);
 
 ### Querying
 
-EF Core will translate LINQ operations on string enums into SQL.
+EF Core translates LINQ operations on string enums into SQL.
 
-Let's add some races first:
+Add some races first:
 
 ```csharp
 var context = new RaceContext();
@@ -113,13 +118,13 @@ await context.Races.AddRangeAsync(races);
 await context.SaveChangesAsync();
 ```
 
-And filter by a single Sport:
+Filter by a single `Sport`:
 
 ```csharp
-var trailRuns = await context.Races.Where(o => o.Sport == Sport.TrailRunning).ToArrayAsync();
+var trailRuns = await context.Races.Where(r => r.Sport == Sport.TrailRunning).ToArrayAsync();
 ```
 
-That will produce the following SQL:
+This produces:
 
 ```sql
 SELECT [r].[Id], [r].[Name], [r].[Sport]
@@ -127,14 +132,15 @@ FROM [Races] AS [r]
 WHERE [r].[Sport] = N'TRAIL_RUNNING'
 ```
 
-You can also query by multiple Sport values:
+Or by multiple `Sport` values:
 
 ```csharp
-var cyclingSport = new[] { Sport.MountainBiking, Sport.RoadCycling };
+var cyclingSports = new[] { Sport.MountainBiking, Sport.RoadCycling };
 
-var racesThatRequireABicycle = await context.Races.Where(o => cyclingSport.Contains(o.Sport)).ToArrayAsync();
+var cyclingRaces = await context.Races.Where(r => cyclingSports.Contains(r.Sport)).ToArrayAsync();
 ```
-Which will translate to the following SQL:
+
+Which translates to:
 
 ```sql
 SELECT [r].[Id], [r].[Name], [r].[Sport]
@@ -144,7 +150,7 @@ WHERE [r].[Sport] IN (N'MTB', N'ROAD_CYCLING')
 
 ## Acknowledgements
 
-Thanks to [Andrew Lock](https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/) for his research on using custom `ValueConverterSelector`.
+Thanks to [Andrew Lock](https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/) for his research on using a custom `ValueConverterSelector`.
 
 ## License
 
