@@ -67,7 +67,7 @@ That's it — EF Core can now read and write string enums.
 
 EF Core stores string enums in non-nullable string columns (`NVARCHAR(MAX)` in SQL Server, `TEXT` in Postgres).
 
-> If you'd like to store string enums as native Postgres enum types instead of `TEXT`, see [StrEnum.Npgsql](https://github.com/StrEnum/StrEnum.Npgsql/).
+> If you'd like to store string enums as native Postgres enum types instead of `TEXT`, see [StrEnum.Npgsql.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.Npgsql.EntityFrameworkCore/).
 
 Running `dotnet ef migrations add Init` produces:
 
