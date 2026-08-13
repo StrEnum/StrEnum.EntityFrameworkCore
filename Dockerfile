@@ -5,6 +5,7 @@ WORKDIR /source
 COPY *.sln .
 COPY src/StrEnum.EntityFrameworkCore/StrEnum.EntityFrameworkCore.csproj ./src/StrEnum.EntityFrameworkCore/StrEnum.EntityFrameworkCore.csproj
 COPY test/StrEnum.EntityFrameworkCore.UnitTests/StrEnum.EntityFrameworkCore.UnitTests.csproj ./test/StrEnum.EntityFrameworkCore.UnitTests/StrEnum.EntityFrameworkCore.UnitTests.csproj
+COPY test/StrEnum.EntityFrameworkCore.IntegrationTests/StrEnum.EntityFrameworkCore.IntegrationTests.csproj ./test/StrEnum.EntityFrameworkCore.IntegrationTests/StrEnum.EntityFrameworkCore.IntegrationTests.csproj
 RUN dotnet restore
 
 # copy everything else and build app
